@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.7/fullpage.css" integrity="sha256-MHZlm8KTLRxClmwQTYIfJEVbcRx1VIgfZJjaBOGCDoc=" crossorigin="anonymous" />
+    <title>Document</title>
+</head>
+<body>
+    <div id="fullpage">
+        <div class="section">
+            <div class="head">
+                <div class="head__logo logotypeContainer">
+                    <div class="logotype">
+                        <img src="img/logo.svg" height="109px" width="276px" alt="">
+                    </div>
+                    <div class="undertext">
+                        <span>Talk to people
+                            artificial language</span>
+                    </div>
+                </div>
+                <div class="head__registration registration">
+
+                    <div class="registration_forma">
+                        <div class="sign_join">
+                            <div class="but join__but"><a href="#">Join us</a></div>
+                            <div class="but sign__but"><a href="#">Sign in</a></div>
+                        </div>
+                        <input type="text" placeholder="Name">
+                        <input type="email" placeholder="E-mail">
+                        <input type="password" placeholder="Password">
+                        <span>If you’re the celebrity, enter the code to create a language</span>
+                        <input type="text" placeholder="Code">
+                        <button>Register now</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="section">
+           <!--  <div class="container"> -->
+            <div class="content">
+                <h1>What is Elinguage?</h1>
+                <p id="text">Web platform for communication using different artificial languages. New idea for your and your
+                    friends fun. Enjoy yor conversation!</p>
+                <h1 id="hew">How it works?</h1>
+                <div class="slider">
+    <div class="slider__wrapper">
+      <div class="slider__item">
+        <div class="slide"><img src="img/plus.svg" alt=""></div>
+      </div>
+      <div class="slider__item">
+        <div class="slide"><img src="img/translation.svg" alt=""></div>
+      </div>
+      <div class="slider__item">
+        <div class="slide" ><img src="img/group2.svg" alt=""></div>
+      </div>
+      <div class="slide">
+        <div ><img src="img/idea.svg" alt=""></div>
+      </div>
+    </div>
+    <a class="slider__control slider__control_left" href="#" role="button"></a>
+    <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
+  </div>
+</div>
+<div class="footer">
+                    <div class="logo">
+                        <img src="img/logo_copy.webp" alt="">
+                    </div>
+                    <div class="connect">
+                        <span><img src="img/Asset.webp" alt=""> Connect with us <img src="img/Asset.webp" alt=""></span>
+                        <span>support@elinguage.com</span>
+                    </div>
+                </div>
+</div>
+</div>
+
+  <script>
+    'use strict';
+    var multiItemSlider = (function () {
+      return function (selector, config) {
+        var
+          _mainElement = document.querySelector(selector), // основный элемент блока
+          _sliderWrapper = _mainElement.querySelector('.slider__wrapper'), // обертка для .slider-item
+          _sliderItems = _mainElement.querySelectorAll('.slider__item'), // элементы (.slider-item)
+          _sliderControls = _mainElement.querySelectorAll('.slider__control'), // элементы управления
+          _sliderControlLeft = _mainElement.querySelector('.slider__control_left'), // кнопка "LEFT"
+          _sliderControlRight = _mainElement.querySelector('.slider__control_right'), // кнопка "RIGHT"
+          _wrapperWidth = parseFloat(getComputedStyle(_sliderWrapper).width), // ширина обёртки
+          _itemWidth = parseFloat(getComputedStyle(_sliderItems[0]).width), // ширина одного элемента    
+          _positionLeftItem = 0, // позиция левого активного элемента
+          _transform = 0, // значение транфсофрмации .slider_wrapper
+          _step = _itemWidth / _wrapperWidth * 100, // величина шага (для трансформации)
+          _items = []; // массив элементов
+        // наполнение массива _items
+        _sliderItems.forEach(function (item, index) {
+          _items.push({ item: item, position: index, transform: 0 });
+        });
+
+        var position = {
+          getMin: 0,
+          getMax: _items.length - 1,
+        }
+
+        var _transformItem = function (direction) {
+          if (direction === 'right') {
+            if ((_positionLeftItem + _wrapperWidth / _itemWidth - 1) >= position.getMax) {
+              return;
+            }
+            if (!_sliderControlLeft.classList.contains('slider__control_show')) {
+              _sliderControlLeft.classList.add('slider__control_show');
+            }
+            if (_sliderControlRight.classList.contains('slider__control_show') && (_positionLeftItem + _wrapperWidth / _itemWidth) >= position.getMax) {
+              _sliderControlRight.classList.remove('slider__control_show');
+            }
+            _positionLeftItem++;
+            _transform -= _step;
+          }
+          if (direction === 'left') {
+            if (_positionLeftItem <= position.getMin) {
+              return;
+            }
+            if (!_sliderControlRight.classList.contains('slider__control_show')) {
+              _sliderControlRight.classList.add('slider__control_show');
+            }
+            if (_sliderControlLeft.classList.contains('slider__control_show') && _positionLeftItem - 1 <= position.getMin) {
+              _sliderControlLeft.classList.remove('slider__control_show');
+            }
+            _positionLeftItem--;
+            _transform += _step;
+          }
+          _sliderWrapper.style.transform = 'translateX(' + _transform + '%)';
+        }
+
+        // обработчик события click для кнопок "назад" и "вперед"
+        var _controlClick = function (e) {
+          if (e.target.classList.contains('slider__control')) {
+            e.preventDefault();
+            var direction = e.target.classList.contains('slider__control_right') ? 'right' : 'left';
+            _transformItem(direction);
+          }
+        };
+
+        var _setUpListeners = function () {
+          // добавление к кнопкам "назад" и "вперед" обрботчика _controlClick для событя click
+          _sliderControls.forEach(function (item) {
+            item.addEventListener('click', _controlClick);
+          });
+        }
+
+        // инициализация
+        _setUpListeners();
+
+        return {
+          right: function () { // метод right
+            _transformItem('right');
+          },
+          left: function () { // метод left
+            _transformItem('left');
+          }
+        }
+
+      }
+    }());
+
+    var slider = multiItemSlider('.slider')
+
+  </script>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.7/fullpage.js" integrity="sha256-Lw96aZrbaAuj9vBh9haoZrkYmRA9Rbkv4K6C8LonvBk=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        new fullpage('#fullpage', {
+
+        });
+
+    </script>
+</body>
+
+</html>
